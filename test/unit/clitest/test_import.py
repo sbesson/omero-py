@@ -512,3 +512,16 @@ class TestImport(object):
         self.args = ["mock-import", "-f", "---bulk=%s" % b]
         self.add_client_dir()
         self.cli.invoke(self.args, strict=True)
+
+    @pytest.mark.skipif(sys.platform == "win32", reason="Fails on Windows")
+    def testImportCandidatesReaders(self, tmpdir):
+        """
+        Test using import_candidates with a populated readers.txt
+        """
+        fakefile = tmpdir.join("test.fake")
+        fakefile.write('')
+        readers = tmpdir.join("readers.txt")
+        readers.write('loci.formats.in.OMETiffReader')
+        candidates = import_candidates.as_dictionary(
+            str(tmpdir), readers=str(readers))
+        assert str(fakefile) not in candidates
