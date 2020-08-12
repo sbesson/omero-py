@@ -526,9 +526,10 @@ class TestImport(object):
         readers = tmpdir.join("readers.txt")
         readers.write('loci.formats.in.FakeReader')
         candidates = import_candidates.as_dictionary(str(tmpdir))
-        assert str(fakefile) in candidates
         assert str(patternfile) in candidates
+        assert str(fakefile) in candidates[str(patternfile)]
         candidates = import_candidates.as_dictionary(
             str(tmpdir), readers=str(readers))
         assert str(fakefile) in candidates
         assert str(patternfile) not in candidates
+
