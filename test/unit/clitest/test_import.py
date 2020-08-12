@@ -521,8 +521,14 @@ class TestImport(object):
         """
         fakefile = tmpdir.join("test.fake")
         fakefile.write('')
+        patternfile = tmpdir.join("test.pattern")
+        patternfile.write('test.fake')
         readers = tmpdir.join("readers.txt")
-        readers.write('loci.formats.in.OMETiffReader')
+        readers.write('loci.formats.in.FakeReader')
+        candidates = import_candidates.as_dictionary(str(tmpdir))
+        assert str(fakefile) in candidates
+        assert str(patternfile) in candidates
         candidates = import_candidates.as_dictionary(
             str(tmpdir), readers=str(readers))
-        assert str(fakefile) not in candidates
+        assert str(fakefile) in candidates
+        assert str(patternfile) not in candidates
