@@ -24,6 +24,7 @@ from omero_ext.path import path
 import omero.clients
 import uuid
 from omero.cli import CLI, NonZeroReturnCode
+from omero.util import import_candidates
 # Workaround for a poorly named module
 try:
     plugin = __import__('omero.plugins.import', globals(), locals(),
