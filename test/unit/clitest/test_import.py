@@ -532,4 +532,3 @@ class TestImport(object):
             str(tmpdir), readers=str(readers))
         assert str(fakefile) in candidates
         assert str(patternfile) not in candidates
-
