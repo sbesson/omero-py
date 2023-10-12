@@ -30,7 +30,7 @@ from omero.util.decorators import wraps
 from omero.util.upgrade_check import UpgradeCheck
 import portalocker
 from omero_ext.argparse import SUPPRESS
-from omero_ext.path import path
+from pathlib import Path
 
 import omero.java
 
@@ -246,12 +246,12 @@ class PrefsControl(WriteableConfigControl):
 
     def open_config(self, args):
         if args.source:
-            cfg_xml = path(args.source)
+            cfg_xml = Path(args.source)
             if not cfg_xml.exists():
                 self.ctx.die(124, "File not found: %s" % args.source)
         else:
             if 'OMERODIR' in os.environ:
-                base_dir = path(os.environ.get('OMERODIR'))
+                base_dir = Path(os.environ.get('OMERODIR'))
             else:
                 self.ctx.die(125, 'FATAL: OMERODIR env variable not set')
             grid_dir = base_dir / "etc" / "grid"
@@ -425,7 +425,7 @@ class PrefsControl(WriteableConfigControl):
         pp = PropertyParser()
         if args.file:
             args.file.close()
-            pp.parse_file(str(path(args.file.name).abspath()))
+            pp.parse_file(str(Path(args.file.name).absolute()))
         else:
             pp.parse_lines(self.ctx.get_config_property_lines(self.dir))
 
