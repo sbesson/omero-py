@@ -37,7 +37,7 @@ from zipfile import ZipFile
 from omero.cli import BaseControl, CLI
 import omero.java
 from omero.util import get_omero_user_cache_dir
-from omero_ext.argparse import SUPPRESS
+from argparse import SUPPRESS
 from omero_ext.path import path
 
 START_CLASS = "ome.formats.importer.cli.CommandLineImporter"

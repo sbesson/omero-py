@@ -15,7 +15,7 @@
 
 import sys
 from omero.cli import BaseControl, CLI
-from omero_ext.argparse import FileType
+from argparse import FileType
 import omero.install.perf_test as perf_test
 
 HELP = """Run perf_test files

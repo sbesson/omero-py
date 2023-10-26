@@ -40,15 +40,15 @@ from threading import Lock
 from contextlib import contextmanager
 from functools import wraps
 
-from omero_ext.argparse import ArgumentError
-from omero_ext.argparse import ArgumentTypeError
-from omero_ext.argparse import ArgumentParser
-from omero_ext.argparse import FileType
-from omero_ext.argparse import Namespace
-from omero_ext.argparse import _SubParsersAction
+from argparse import ArgumentError
+from argparse import ArgumentTypeError
+from argparse import ArgumentParser
+from argparse import FileType
+from argparse import Namespace
+from argparse import _SubParsersAction
 # Help text
-from omero_ext.argparse import RawTextHelpFormatter
-from omero_ext.argparse import SUPPRESS
+from argparse import RawTextHelpFormatter
+from argparse import SUPPRESS
 from omero_ext.path import path
 
 from omero.util.concurrency import get_event
