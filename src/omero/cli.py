@@ -204,17 +204,17 @@ Optional session arguments:
         group.add_argument(
             "-C", "--create", action="store_true",
             help="Create a new session regardless of existing ones")
-        group.add_argument("-s", "--server", help="OMERO server hostname")
-        group.add_argument("-p", "--port", help="OMERO server port")
-        group.add_argument("-g", "--group", help="OMERO server default group")
-        group.add_argument("-u", "--user", help="OMERO username")
-        group.add_argument("-w", "--password", help="OMERO password")
+        group.add_argument("-s", "--server", help="OMERO server hostname", default=SUPPRESS)
+        group.add_argument("-p", "--port", help="OMERO server port", default=SUPPRESS)
+        group.add_argument("-g", "--group", help="OMERO server default group", default=SUPPRESS)
+        group.add_argument("-u", "--user", help="OMERO username", default=SUPPRESS)
+        group.add_argument("-w", "--password", help="OMERO password", default=SUPPRESS)
         group.add_argument(
             "-k", "--key",
-            help="OMERO session key (UUID of an active session)")
+            help="OMERO session key (UUID of an active session)", default=SUPPRESS)
         group.add_argument(
             "--sudo", metavar="ADMINUSER",
-            help="Create session as this admin. Changes meaning of password!")
+            help="Create session as this admin. Changes meaning of password!", default=SUPPRESS)
         group.add_argument(
             "-q", "--quiet", action="store_true",
             help="Quiet mode. Causes most warning and diagnostic messages to "

@@ -365,8 +365,9 @@ class SessionsControl(UserGroupControl):
 
         # Basic props, don't get fiddled with
         props = {}
-        if args.group:
-            props["omero.group"] = args.group
+        group = getattr(args, "group", None)
+        if group:
+            props["omero.group"] = group
 
         #
         # Retrieving the parameters as set by the user
@@ -374,28 +375,30 @@ class SessionsControl(UserGroupControl):
         # connection, then a new one may be created.
         #
         # May be called by another plugin
-        server = getattr(args, "connection", None)
+        server = None
         name = None
         port = None
 
-        if args.server:
-            if server:
+        if "server" in args and args.server:
+            if "connection" in args and args.connection:
                 self.ctx.die(3, "Server specified twice: %s and %s"
-                             % (server, args.server))
+                             % (args.connection, args.server))
             else:
                 server = args.server
+        elif "connection" in args and args.connection:
+            server = args.connection
 
         if server:
             server, name, port = self._parse_conn(server, name)
 
-        if args.user:
+        if "user" in args and args.user:
             if name:
                 self.ctx.die(4, "Username specified twice: %s and %s"
                              % (name, args.user))
             else:
                 name = args.user
 
-        if args.port:
+        if "port" in args and args.port:
             if port:
                 self.ctx.die(5, "Port specified twice: %s and %s"
                              % (port, args.port))
@@ -407,14 +410,14 @@ class SessionsControl(UserGroupControl):
         # Unless the key is bad, there's no reason to ask
         # the user for any more input.
         #
-        pasw = args.password
-        if args.key:
+        pasw = getattr(args, "password", None)
+        if "key" in args and args.key:
             if name and not self.ctx.isquiet:
                 self.ctx.err("Overriding name since session key set")
             name = args.key
-            if args.group and not self.ctx.isquiet:
+            if group and not self.ctx.isquiet:
                 self.ctx.err("Ignoring group since session key set")
-            if args.password and not self.ctx.isquiet:
+            if pasw and not self.ctx.isquiet:
                 self.ctx.err("Ignoring password since session key set")
             pasw = args.key
         #
@@ -488,7 +491,7 @@ class SessionsControl(UserGroupControl):
         # will fail. Then, if no session can be found, we exit immediately
         # rather than asking for a password. See #4223
         #
-        if args.key:
+        if "key" in args and args.key:
             stored_name = store.find_name_by_key(server, args.key)
             if not stored_name:
                 # ticket:5975 : If this is the case, then this session key
@@ -519,6 +522,7 @@ class SessionsControl(UserGroupControl):
             if not pasw:
                 pasw = os.getenv("OMERO_PASSWORD")
 
+            sudo = getattr(args, "sudo", None)
             tries = 3
             while True:
                 try:
@@ -526,8 +530,8 @@ class SessionsControl(UserGroupControl):
                         # Handle absent and incorrect passwords in
                         # non-interactive mode
                         self._require_tty("cannot request password")
-                        if args.sudo:
-                            prompt = "Password for %s:" % args.sudo
+                        if sudo:
+                            prompt = "Password for %s:" % sudo
                         else:
                             prompt = "Password:"
                         pasw = self.ctx.input(prompt, hidden=True,
@@ -538,7 +542,7 @@ class SessionsControl(UserGroupControl):
                     retries = 0
                     while True:
                         try:
-                            rv = store.create(name, pasw, props, sudo=args.sudo)
+                            rv = store.create(name, pasw, props, sudo=sudo)
                             break
                         except Exception as e:
                             elapsed = (time.time() - start)
