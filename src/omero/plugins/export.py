@@ -12,7 +12,7 @@
 import os
 import sys
 
-from omero.cli import BaseControl, CLI, NewFileType
+from omero.cli import BaseControl, CLI, FileType
 
 HELP = """Support for exporting data in XML and TIFF formats
 
@@ -33,7 +33,7 @@ class ExportControl(BaseControl):
 
     def _configure(self, parser):
         parser.add_argument(
-            "-f", "--file", type=NewFileType("wb"), required=True,
+            "-f", "--file", type=FileType("xb"), required=True,
             help="Filename to export to or '-' for stdout."
             " File may not exist")
         parser.add_argument(
