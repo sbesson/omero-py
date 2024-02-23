@@ -363,8 +363,6 @@ class KeyValueListTransformer(object):
         """
 
         def valuesub(v, cv):
-            if JINJA2_MISSING:
-                raise JINJA2_MISSING
             t = jinja2.Template(cv)
             return t.render(value=v)
 
