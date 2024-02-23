@@ -28,14 +28,8 @@ data for clients.
 
 from collections import deque, OrderedDict
 from omero.constants import namespaces
+import jinja2
 import re
-
-# TODO: Make jinja2 mandatory?
-try:
-    import jinja2
-    JINJA2_MISSING = None
-except ImportError as j2exc:
-    JINJA2_MISSING = j2exc
 
 
 try:

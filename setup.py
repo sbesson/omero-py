@@ -215,7 +215,8 @@ setup(
         'zeroc-ice>=3.6.5,<3.7',
         'pywin32; platform_system=="Windows"',
         'requests',
-        'portalocker'
+        'portalocker',
+        'Jinja2'
     ],
     tests_require=[
         'pytest',

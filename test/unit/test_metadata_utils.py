@@ -24,16 +24,11 @@ Test of metadata_utils classes
 """
 
 import pytest
+import jinja2
 
 from omero.util.metadata_utils import (
     BulkAnnotationConfiguration, GroupConfig, KeyValueListPassThrough,
     KeyValueGroupList, KeyValueListTransformer)
-
-try:
-    import jinja2  # noqa
-    JINJA2_MISSING = None
-except ImportError as j2exc:
-    JINJA2_MISSING = j2exc
 
 
 def expected(**kwargs):
@@ -291,7 +286,6 @@ class TestKeyValueGroupList(object):
             (expected(name="a1"), 0), (expected(name="a3"), 2)]
 
 
-@pytest.mark.skipif(JINJA2_MISSING, reason="Requires Jinja2")
 class TestKeyValueListTransformer(object):
 
     def test_transform1_default(self):
